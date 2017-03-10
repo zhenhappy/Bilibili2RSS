@@ -1,9 +1,9 @@
 <?php
 date_default_timezone_set("Asia/Shanghai");
-require './network.php';
-require './networkcurl.php';
-require './rss2.php';
-require './ua_json.php';
+require './class/network.php';
+require './class/networkcurl.php';
+require './class/rss2.php';
+require './class/ua_json.php';
 UA_JSON::Create();
 $htmlRead = "";
 if (!UA_JSON::Add()) {
@@ -11,7 +11,7 @@ if (!UA_JSON::Add()) {
   $parser = new HyperDown\Parser;
   $mdRead   = file_get_contents("./README.md");
   $htmlRead = $parser->makeHtml($mdRead);
-  $htmlRead = "<p>---尽量使用固定IP并邀请足够多的人使用本服务即可移除下述内容---</p>$htmlRead";
+  $htmlRead = "<h2><b>---尽量使用固定IP并邀请足够多的人使用本服务即可移除下述内容---</b></h2>$htmlRead";
 }
 $seasonid  = GetVars("anime", "GET") != null ? GetVars("anime", "GET") : 5800;
 $http_post = Network::Create();
