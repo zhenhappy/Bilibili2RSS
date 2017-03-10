@@ -16,10 +16,6 @@ function GetGuestAgent()
 {
   return GetVars("HTTP_USER_AGENT", "SERVER");
 }
-// echo $_SERVER["HTTP_USER_AGENT"];
-// echo GetVars("HTTP_USER_AGENT", "SERVER");
-// echo GetGuestAgent();
-// die();
 class UA_JSON
 {
   public static function FilePath()
@@ -39,7 +35,7 @@ class UA_JSON
       if (!file_exists(dirname($file))) {
         @mkdir(dirname($file), 0755, true);
       }
-      file_put_contents($file, '{"Guests":{"::1":{"Time":1487651979,"GuestAgent":"RSS","ID":0}},"MaxID":0}');
+      file_put_contents($file, '{"Guests":{"8.8.8.8":{"Time":1487651979,"Agent":"RSS","ID":0}},"MaxID":0}');
     }
   }
   // UA_JSON::Add()
@@ -60,7 +56,7 @@ class UA_JSON
       if ($Guests->$IP->Agent === $Agent && $Guests->$IP->ID < $data->MaxID - 3) {
         $result            = true;
         $Guests->$IP->Time = time();
-        $Guests->$IP->ID   = $data->MaxID + 2;
+        $Guests->$IP->ID++;
       }
     }
     $file = UA_JSON::FilePath();
