@@ -14,9 +14,10 @@ if ($_FILES["torrent"]["error"] > 0) {
   // echo "Upload: " . $_FILES["torrent"]["name"];
   // echo "<br>Type: " . $_FILES["torrent"]["type"];
   // echo "<br>Size: " . ($_FILES["torrent"]["size"] / 1024) . " Kb";
-  @mkdir("upload",0755);
-  //echo "Stored in: " . $_FILES["torrent"]["tmp_name"] . "<br />";
-  $fileTorrent = SaveFile($_FILES["torrent"]["tmp_name"], "upload/", $_FILES["torrent"]["name"]);
+  // echo "Stored in: " . $_FILES["torrent"]["tmp_name"] . "<br />";
+  // @mkdir("upload",0755);
+  // $fileTorrent = SaveFile($_FILES["torrent"]["tmp_name"], "upload/", $_FILES["torrent"]["name"]);
+  $fileTorrent = $_FILES["torrent"]["tmp_name"];
 } else {
   echo '{error:"文件类型错误"}';
   die();
