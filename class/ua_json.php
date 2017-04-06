@@ -1,26 +1,9 @@
 <?php
-function GetVars($name, $type = 'REQUEST')
-{
-  $array =& $GLOBALS[strtoupper("_$type")];
-  if (isset($array[$name])) {
-    return $array[$name];
-  } else {
-    return null;
-  }
-}
-function GetGuestIP()
-{
-  return GetVars("REMOTE_ADDR", "SERVER");
-}
-function GetGuestAgent()
-{
-  return GetVars("HTTP_USER_AGENT", "SERVER");
-}
 class UA_JSON
 {
   public static function FilePath()
   {
-    return "cache/log.json";
+    return dirname(dirname(__FILE__))."/cache/log.json";
   }
   //UA_JSON::Read()
   public static function Read()
@@ -49,7 +32,6 @@ class UA_JSON
     if (!isset($Guests->$IP)) {
       $data->MaxID++;
       $Guests->$IP        = json_decode('{"Time":' . time() . '}');
-      $Guests->$IP        = json_decode('{"Time":0}');
       $Guests->$IP->Agent = $Agent;
       $Guests->$IP->ID    = $data->MaxID;
     } else {

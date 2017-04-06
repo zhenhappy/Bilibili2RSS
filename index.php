@@ -1,9 +1,6 @@
 <?php
 date_default_timezone_set("Asia/Shanghai");
-require './class/network.php';
-require './class/networkcurl.php';
-require './class/rss2.php';
-require './class/ua_json.php';
+require './class/function.php';
 UA_JSON::Create();
 $htmlRead = "";
 if (!UA_JSON::Add()) {
