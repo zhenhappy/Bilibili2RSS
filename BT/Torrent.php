@@ -171,7 +171,8 @@ class Torrent
     // $ed2k = 
     if (isset($this->info['files']) && is_array($this->info['files']))
       foreach ($this->info['files'] as $file) {
-        $name   = isset($file['path.utf-8']) ? $file['path.utf-8'][0] : $file['path'][0];
+        // $name   = isset($file['path.utf-8']) ? $file['path.utf-8'][0] : $file['path'][0];
+        $name   = isset($file['path.utf-8']) ? join("-",$file['path.utf-8'])  : join("-",$file['path']) ;
         $length = $file['length'];
         $hash = isset($file['ed2k']) ? unpack("H*",$file['ed2k'])[1] : "";
         if ($hash !== "")
