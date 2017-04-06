@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+  <link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/bootstrap-fileinput/4.3.8/css/fileinput.min.css" rel="stylesheet">
+  <style type="text/css">
+    body {font-size: 16px;}
+    img {max-width: 100%; height: auto;}
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="col-md-8">
+      <h1>种子转磁力链接</h1>
+      <p class="help-block">选择种子文件，点击 上传 按钮</p>
+      <form action="get.php" method="post" target="_blank" enctype="multipart/form-data">
+          <input type="file" name="torrent" id="torrent" />
+      </form>
+      <h3 class="js-show fade hidden">结果</h3>
+      <div class="js-result"></div>
+      <h3>联系/源码索取</h3>
+      <p>群名称：576k5ZCN5LuA5LmI6ay8</p>
+      <p>群号：189574683</p>
+      <p>点击加入：<a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=f2701214fb5c70ce08107e7206a282927e13ab91ec0780af640c2ad6bd9895c8"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="576k5ZCN5LuA5LmI6ay8" title="576k5ZCN5LuA5LmI6ay8"></a></p>
+    </div>
+    <div class="col-md-4">
+      <br /><br />
+      <div class="panel panel-success">
+        <div class="panel-heading">不(gan)许(kuai)点这里</div>    
+        <div><a href="http://bilibili2rss.bid/anime/5800" title="bilibili2rss" target="_blank"><img src="http://wx4.sinaimg.cn/mw690/78f2cc43gy1fcxz5zihlqg20iw0lowxq.gif" alt="康娜是我的" /><img src="http://wx3.sinaimg.cn/mw690/48ed9e80ly1fectyuvqh7j20k00k0jso.jpg" alt="康娜是我的" /></a></div>
+      </div>
+    </div>
+  </div>
+</div>
+<hr />
+<footer class="container">
+  <div class="row">
+  	<div class="col-md-12">
+      <p class="text-center"><a href="http://www.wdssmq.com/test/pinyin.html" title="心声体">心声体生成</a> | <a href="http://www.wdssmq.com" title="沉冰浮水">沉冰浮水</a></p>
+    </div>
+  </div>
+</footer>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="//cdn.bootcss.com/bootstrap-fileinput/4.3.2/js/fileinput.min.js" type="text/javascript"></script>
+<script src="//cdn.bootcss.com/bootstrap-fileinput/4.3.1/js/fileinput_locale_zh.min.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+$(function () {
+  $("#torrent").fileinput({
+    language: 'zh', //设置语言
+    uploadUrl: "get.php", //上传的地址
+    allowedFileExtensions: ['jpg', 'png', 'torrent'],//接收的文件后缀
+    showPreview: false,
+    browseClass: "btn btn-success",
+    browseLabel: "选择种子",
+    browseIcon: "<i class=\"glyphicon glyphicon-plus\"></i>",
+    removeClass: "btn btn-danger",
+    removeIcon: "<i class=\"glyphicon glyphicon-trash\"></i>",
+    uploadClass: "btn btn-info",
+    uploadLabel: "上传",
+    uploadIcon: "<i class=\"glyphicon glyphicon-refresh\"></i>",
+    initialCaption: "选择文件"
+  }).on("fileuploaded", function (event, data, previewId, index) {
+        console.log(JSON.stringify(data.response));
+        $(".kv-upload-progress").slideUp(1500);
+        $(".js-result").html("");
+        $(".js-result").append("<p>磁力链：" + data.response.magnet + "</p>");
+        if(data.response.ed2k)
+          $(".js-result").append("<h4>ed2k：</h4><p>" + data.response.ed2k.join("<br />") + "</p>");
+        $(".js-show").removeClass("hidden").addClass("in");
+    });
+});
+</script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?ef14c312dc96b31bf4536edad5be6080";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</body>
+</html>
