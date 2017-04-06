@@ -30,7 +30,7 @@
       <br /><br />
       <div class="panel panel-success">
         <div class="panel-heading">不(gan)许(kuai)点这里</div>    
-        <div><a href="http://bilibili2rss.bid/anime/5800" title="bilibili2rss" target="_blank"><img src="http://wx4.sinaimg.cn/mw690/78f2cc43gy1fcxz5zihlqg20iw0lowxq.gif" alt="康娜是我的" /><img src="http://wx3.sinaimg.cn/mw690/48ed9e80ly1fectyuvqh7j20k00k0jso.jpg" alt="康娜是我的" /></a></div>
+        <div class="kanna"><a href="http://bilibili2rss.bid/anime/5800" title="bilibili2rss" target="_blank"><img src="" alt="康娜是我的" /></a></div>
       </div>
     </div>
   </div>
@@ -73,7 +73,21 @@ $(function () {
         if(data.response.ed2k)
           $(".js-result").append("<h4>ed2k：</h4><p>" + data.response.ed2k.join("<br />") + "</p>");
         $(".js-show").removeClass("hidden").addClass("in");
-    });
+  });
+	function randomsort(a, b) {
+		return Math.random() > 0.5 ?  - 1 : 1;
+	}
+	function fnRndItem(a) {
+		a = a.sort(randomsort);
+		return a[parseInt((a.length) * Math.random())];
+	}
+  var arrIMGS = [
+    "http://wx4.sinaimg.cn/mw690/78f2cc43gy1fcxz5zihlqg20iw0lowxq.gif",
+    "http://wx3.sinaimg.cn/mw690/48ed9e80ly1fectyuvqh7j20k00k0jso.jpg",
+    "http://wx1.sinaimg.cn/mw690/48ed9e80ly1fecuung6tyj20g40eqgmk.jpg",
+  ];
+  //alert(fnRndItem(arrIMGS));
+  $(".kanna img").attr("src",fnRndItem(arrIMGS));
 });
 </script>
 <script>
