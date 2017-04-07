@@ -2,6 +2,7 @@
 date_default_timezone_set("Asia/Shanghai");
 require './class/function.php';
 UA_JSON::Create();
+UA_JSON::Del();
 $htmlRead = "";
 if (!UA_JSON::Add()) {
   require './HyperDown/Parser.php';
