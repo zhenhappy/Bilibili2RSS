@@ -50,9 +50,13 @@ class UA_JSON
   {
     $data = UA_JSON::Read();
     $Guests =& $data->Guests;
+    $time = 0;
     foreach ($Guests as $k => $v) {
-      if ($v->Time < strtotime("-7 day")) {
+      if($v->Time >= $time){
         unset($Guests->$k);
+        if ($v->Time > strtotime("-7 day"))
+          $Guests->$k = $v;
+        $time = $v->Time;
       }
     }
     $file = UA_JSON::FilePath();
