@@ -2,8 +2,6 @@
 header("Content-type:text/json");
 require_once 'function.php';
 require '../class/ua_json.php';
-// if(GetVars("check","GET") === GetVars("torrentName","COOKIE"))
-// echo 65537;
 if (count($_FILES) == 0)
   die();
 $fileTorrent = "";
@@ -52,13 +50,15 @@ $objData->magnet  = "magnet:?xt=urn:btih:" . $torrent->hash_info();
 // $objData->magnet = $torrent->magnet();
 $objData->content = $torrent->content();
 UA_JSON::Create();
-if (UA_JSON::Add() && count($torrent->ed2k()) > 0) {
-  $objData->ed2k = $torrent->ed2k();
-} elseif (count($torrent->ed2k()) > 0) {
-  $objData->ed2k   = array();
-  $objData->ed2k[] = "1、当前种子含有ed2k信息，将本程序页面分享给至少3个人使用即可查看；";
-  $objData->ed2k[] = "2、使用未被记录的IP成功解析任意一个种子文件即为一次有效分享;";
-  $objData->ed2k[] = "3、请保持当前的IP <b>" . GetGuestIP() . "</b> 不变，否则将重新计数;";
+if (count($torrent->ed2k()) > 0) {
+  if (UA_JSON::Add(0.1)) {
+    $objData->ed2k = $torrent->ed2k();
+  } else {
+    $objData->ed2k   = array();
+    $objData->ed2k[] = "1、当前种子含有ed2k信息，将本程序页面分享给至少3个人使用即可查看；";
+    $objData->ed2k[] = "2、使用未被记录的IP成功解析任意一个种子文件即为一次有效分享;";
+    $objData->ed2k[] = "3、请保持当前的IP <b>" . GetGuestIP() . "</b> 不变，否则将重新计数;";
+  }
 }
 echo json_encode($objData);
 if (1 == 2) {

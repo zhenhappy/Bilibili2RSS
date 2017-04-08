@@ -11,17 +11,18 @@
   </style>
 </head>
 <body>
-<br />
+<br>
 <div class="container">
   <div class="row">
     <div class="col-md-8">
       <h1>BT种子转磁力链</h1>
       <p class="help-block">选择种子文件，点击 解析 按钮</p>
       <form action="get.php" method="post" target="_blank" enctype="multipart/form-data">
-        <input type="file" name="torrent" id="torrent" />
+        <input type="file" name="torrent" id="torrent">
       </form>
       <h3 class="js-show fade hidden">结果</h3>
       <div class="js-result"></div>
+      <hr class="js-show hidden">
       <h3>声明</h3>
       <p>本web程序仅对用户上传文件按照一定技术规则进行解析和输出，本身不提供和缓存任何内容；</p>
       <h3>联系/源码索取</h3>
@@ -30,15 +31,15 @@
       <p>点击加入：<a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=f2701214fb5c70ce08107e7206a282927e13ab91ec0780af640c2ad6bd9895c8"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="576k5ZCN5LuA5LmI6ay8" title="576k5ZCN5LuA5LmI6ay8"></a></p>
     </div>
     <div class="col-md-4">
-      <br />
+      <br>
       <div class="panel panel-success">
         <div class="panel-heading">不(gan)许(kuai)点这里</div>    
-        <div class="kanna"><a href="http://bilibili2rss.bid/anime/5800" title="bilibili2rss" target="_blank"><img src="" alt="康娜是我的" /></a></div>
+        <div class="kanna"><a href="http://bilibili2rss.bid/anime/5800" title="bilibili2rss" target="_blank"><img src="" alt="康娜是我的"></a></div>
       </div>
     </div>
   </div>
 </div>
-<hr />
+<hr>
 <footer class="container">
   <div class="row">
   	<div class="col-md-12">
@@ -77,11 +78,11 @@ $(function () {
         $(".js-result").html("");
         $(".js-result").append("<p>磁力链：" + data.response.magnet + "</p>");
         if(data.response.ed2k)
-          $(".js-result").append("<h4>ed2k：</h4><p>" + data.response.ed2k.join("<br />") + "</p>");
+          $(".js-result").append("<h4>ed2k：</h4><p>" + data.response.ed2k.join("</p><p>") + "</p>");
         $(".js-show").removeClass("hidden").addClass("in");
   });
 	function randomsort(a, b) {
-		return Math.random() > 0.5 ?  - 1 : 1;
+		return Math.random()> 0.5 ?  - 1 : 1;
 	}
 	function fnRndItem(a) {
 		a = a.sort(randomsort);
