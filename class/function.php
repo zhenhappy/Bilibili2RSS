@@ -42,6 +42,7 @@ function GetValueInArray($array, $name)
 }
 function GetRequestUri()
 {
+  return 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
   $url = '';
   if (isset($_SERVER['HTTP_X_ORIGINAL_URL'])) {
     $url = $_SERVER['HTTP_X_ORIGINAL_URL'];

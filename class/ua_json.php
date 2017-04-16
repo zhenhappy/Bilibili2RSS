@@ -1,6 +1,6 @@
 <?php
 class UA_JSON
-{ 
+{
   // UA_JSON::FilePath()
   public static function FilePath()
   {
@@ -34,18 +34,22 @@ class UA_JSON
     $Url     = GetRequestUri();
     if (!isset($Guests->$IP)) {
       $data->MaxID++;
-      $Guests->$IP->ID      = $data->MaxID;
       $Guests->$IP          = json_decode('{"Time":' . time() . '}');
       $Guests->$IP->Agent   = $Agent;
       $Guests->$IP->Referer = $Referer;
-      $Guests->$IP->Url     = $Url;
+      $Guests->$IP->Url     = array(
+        $Url
+      );
+      $Guests->$IP->ID      = (int) $data->MaxID;
     } else {
       if ($Guests->$IP->Agent === $Agent && $Guests->$IP->ID <= $data->MaxID - 3) {
+        $result = true;
         $data->MaxID -= $rate;
         $Guests->$IP->ID++;
         $Guests->$IP->Time = time();
-        $result            = true;
       }
+      if (!in_array($Url, $Guests->$IP->Url))
+        $Guests->$IP->Url[] = $Url;
     }
     $file = UA_JSON::FilePath();
     file_put_contents($file, json_encode($data));
