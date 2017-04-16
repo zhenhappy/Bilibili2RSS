@@ -58,7 +58,7 @@ class UA_JSON
   // UA_JSON::Del()
   public static function Del()
   {
-    if (floor(time() / 60) % 5 !== 0)
+    if (floor(time() / 60) % 3 == 0)
       return false;
     $data = UA_JSON::Read();
     $Guests =& $data->Guests;

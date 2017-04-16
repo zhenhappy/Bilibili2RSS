@@ -3,9 +3,13 @@ RewriteEngine On
 RewriteBase /
 RewriteCond %{http_host} ^.*\.bilibili2rss.bid [NC]
 RewriteRule ^(.*)$ http://bilibili2rss.bid/$1 [L,R=301]
-RewriteRule ^.*(?:anime|id)/(\d+).*/$ /anime/$1 [L,R=301]
-RewriteRule ^.*(?:anime|id)/(\d+).*$ /index.php?anime=$1 [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . /index.php [L]
+RewriteRule ^(.+)/$ /$1 [L,R=301]
+RewriteRule ^.*id/(\d+).*$ /anime/$1 [L,R=301]
+RewriteRule ^.*anime/(\d+)[^\d]+$ /anime/$1 [L,R=301]
+RewriteRule ^.*anime/(\d+)$ /index.php?anime=$1 [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /anime/5800 [L,R=301]
 </IfModule>
