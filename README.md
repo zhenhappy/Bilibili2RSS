@@ -8,13 +8,13 @@ https://github.com/wdssmq/Bilibili2RSS
 
 ## 使用方法（不想写UI和提交表单啊。。。）
 
-http://bilibili2rss.bid/anime/5800 （建议）
+https://bilibili2rss.bid/anime/5800 （建议）
 
-http://bilibili2rss.bid/id/5800
+https://bilibili2rss.bid/id/5800
 
-http://bilibili2rss.bid/http://bangumi.bilibili.com/anime/5800
+https://bilibili2rss.bid/http://bangumi.bilibili.com/anime/5800
 
-http://bilibili2rss.bid/http://bangumi.bilibili.com/anime/5800/play#98610
+https://bilibili2rss.bid/http://bangumi.bilibili.com/anime/5800/play#98610
 
 ## 部分代码或类库来源
 

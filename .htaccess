@@ -1,6 +1,7 @@
 <IfModule mod_rewrite.c>
 RewriteEngine On
-RewriteBase /
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 RewriteCond %{http_host} ^.*\.bilibili2rss.bid [NC]
 RewriteRule ^(.*)$ http://bilibili2rss.bid/$1 [L,R=301]
 RewriteCond %{REQUEST_FILENAME} !-f

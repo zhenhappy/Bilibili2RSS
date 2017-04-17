@@ -48,6 +48,8 @@ class UA_JSON
         $Guests->$IP->ID++;
         $Guests->$IP->Time = time();
       }
+      if(count($Guests->$IP->Url)>25)
+        $Guests->$IP->Url = array();
       if (!in_array($Url, $Guests->$IP->Url))
         $Guests->$IP->Url[] = $Url;
     }
