@@ -21,3 +21,11 @@ https://bilibili2rss.bid/http://bangumi.bilibili.com/anime/5800/play#98610
 https://github.com/zblogcn/zblogphp
 
 https://github.com/SegmentFault/HyperDown
+
+## 特别的
+
+本项目已获小众软件推荐
+
+[Bilibili2RSS – 为你喜爱的任意 B 站「番剧」添加 RSS 更新通知[Web]](http://www.appinn.com/bilibili2rss/ "Bilibili2RSS – 为你喜爱的任意 B 站「番剧」添加 RSS 更新通知[Web]")
+
+[![小众软件](https://meta.appinn.com/uploads/default/720/10be453651de03ed.png "分享免费、小巧、实用、有趣、绿色的软件。")](http://www.appinn.com/bilibili2rss/ "Bilibili2RSS – 为你喜爱的任意 B 站「番剧」添加 RSS 更新通知[Web]")
