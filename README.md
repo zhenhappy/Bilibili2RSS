@@ -8,7 +8,13 @@ https://github.com/wdssmq/Bilibili2RSS
 
 ## 使用方法（不想写UI和提交表单啊。。。）
 
-https://bilibili2rss.bid/anime/5800 （建议）
+某番剧的B站地址：http://bangumi.bilibili.com/anime/5800
+
+番剧ID（番号）：5800
+
+将番剧ID或番剧地址拼接到服务网址后边即可：
+
+https://bilibili2rss.bid/anime/5800 （建议，事实上后边的会301到这个！）
 
 https://bilibili2rss.bid/id/5800
 
