@@ -28,36 +28,48 @@ class UA_JSON
     $result = false;
     $data   = UA_JSON::Read();
     $Guests =& $data->Guests;
-    $IP      = $_SERVER["REMOTE_ADDR"];
-    $Agent   = $_SERVER["HTTP_USER_AGENT"];
+    $IP    = $_SERVER["REMOTE_ADDR"];
+    $Key   = join(".", array_slice(explode(".", $IP), 0, -1)) . ".*";
+    $Agent = $_SERVER["HTTP_USER_AGENT"];
     if ($Agent == "curl")
-      $IP = $Agent;
+      $Key = $Agent;
     $Referer = $_SERVER["HTTP_REFERER"];
     $Url     = GetRequestUri();
-    if (!isset($Guests->$IP)) {
+    $Time    = time();
+    if (!isset($Guests->$Key)) {
       $data->MaxID++;
-      $Guests->$IP          = json_decode('{"Time":' . time() . '}');
-      $Guests->$IP->Agent   = $Agent;
-      $Guests->$IP->Referer = $Referer;
-      $Guests->$IP->Url     = array(
-        $Url
-      );
-      $Guests->$IP->ID      = (int) $data->MaxID;
+      $Guests->$Key          = json_decode('{"Time":' . $Time . '}');
+      $Guests->$Key->ID      = (int) $data->MaxID;
+      $Guests->$Key->Agent   = $Agent;
+      $Guests->$Key->Referer = $Referer;
+      $Guests->$Key->Logs    = array();
     } else {
-      if ($Guests->$IP->Agent === $Agent && $Guests->$IP->ID <= $data->MaxID - 3) {
+      if ($Guests->$Key->Agent === $Agent && $Guests->$Key->ID <= $data->MaxID - 3) {
         $result = true;
         $data->MaxID -= $rate;
-        $Guests->$IP->ID++;
-        $Guests->$IP->Time = time();
+        $Guests->$Key->ID++;
+        $Guests->$Key->Time = $Time;
       }
-      if(count($Guests->$IP->Url)>25)
-        $Guests->$IP->Url = array();
-      if (!in_array($Url, $Guests->$IP->Url))
-        $Guests->$IP->Url[] = $Url;
     }
-    if (!isset($Guests->$IP->IP))
-      $Guests->$IP->IP = array();
-    $Guests->$IP->IP[] = $_SERVER["REMOTE_ADDR"];
+    if (!isset($Guests->$Key->Logs)) //5月移除
+      $Guests->$Key->Logs = array();
+    if (count($Guests->$Key->Logs) > 25) {
+      $intTray = $Guests->$Key->ID;
+      unset($Guests->$Key);
+      // UA_JSON::Add();
+      // $Guests->$Key->ID = $intTray;
+      $data->MaxID += $data->MaxID - $intTray;
+    }
+    // $Guests->$Key->Logs[] = json_decode('{"Time":"' . date("Y-m-d H:i:s", $Time) . '","IP":"' . $IP . '","Url":"' . $Url . '"}');
+    $Guests->$Key->Logs[] = array(
+      "Time" => date("Y-m-d H:i:s", $Time),
+      "IP" => $IP,
+      "Url" => $Url
+    );
+    if ($Referer != null)
+      $Guests->$Key->Logs["Referer"] = $Referer;
+    if ($Guests->$Key->Agent !== $Agent)
+      $Guests->$Key->Logs["Agent"] = $Agent;
     $file = UA_JSON::FilePath();
     file_put_contents($file, json_encode($data));
     return $result;
