@@ -65,12 +65,10 @@ class UA_JSON
     $Guests->$Key->Logs[] = array(
       "Time" => date("Y-m-d H:i:s", $Time),
       "IP" => $IP,
-      "Url" => $Url
+      "Url" => $Url,
+      "Referer" => $Referer,
+      "Agent" => $Agent,
     );
-    if ($Referer != null)
-      $Guests->$Key->Logs["Referer"] = $Referer;
-    if ($Guests->$Key->Agent !== $Agent)
-      $Guests->$Key->Logs["Agent"] = $Agent;
     $file = UA_JSON::FilePath();
     file_put_contents($file, json_encode($data));
     return $result;
@@ -92,7 +90,7 @@ class UA_JSON
       }
     }
     $file = UA_JSON::FilePath();
-    file_put_contents($file, json_encode($data));
+    file_put_contents($file, str_replace('"Referer":null,','',json_encode($data)));
   }
   // UA_JSON::EndNothing()
   // public static function EndNothing() {
