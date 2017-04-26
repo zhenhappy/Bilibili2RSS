@@ -30,6 +30,8 @@ class UA_JSON
     $Guests =& $data->Guests;
     $IP      = $_SERVER["REMOTE_ADDR"];
     $Agent   = $_SERVER["HTTP_USER_AGENT"];
+    if ($Agent == "curl")
+      $IP = $Agent;
     $Referer = $_SERVER["HTTP_REFERER"];
     $Url     = GetRequestUri();
     if (!isset($Guests->$IP)) {
@@ -53,6 +55,9 @@ class UA_JSON
       if (!in_array($Url, $Guests->$IP->Url))
         $Guests->$IP->Url[] = $Url;
     }
+    if (!isset($Guests->$IP->IP))
+      $Guests->$IP->IP = array();
+    $Guests->$IP->IP[] = $_SERVER["REMOTE_ADDR"];
     $file = UA_JSON::FilePath();
     file_put_contents($file, json_encode($data));
     return $result;
