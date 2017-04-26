@@ -12,7 +12,7 @@ if(!UA_JSON::Add() && is_file($fileCache)){
   $parser   = new HyperDown\Parser;
   $mdRead   = file_get_contents("./README.md");
   $htmlRead = $parser->makeHtml($mdRead);
-  $htmlRead = "<h2><b>---尽量使用固定IP并邀请足够多的人使用本服务即可移除下述内容---</b></h2><p>群号：189574683</p><p>点击加入：<a target=\"_blank\" href=\"//shang.qq.com/wpa/qunwpa?idkey=f2701214fb5c70ce08107e7206a282927e13ab91ec0780af640c2ad6bd9895c8\"><img border=\"0\" src=\"//pub.idqqimg.com/wpa/images/group.png\" alt=\"576k5ZCN5LuA5LmI6ay8\" title=\"576k5ZCN5LuA5LmI6ay8\"></a></p>$htmlRead";
+  $htmlRead = "<h2><b>---尽量使用固定IP并邀请足够多的人使用本服务即可移除下述内容---</b></h2><p><b>如果你能看到这段文字，说明这是缓存，请降低你的抓取频率！</b></p><p>群号：189574683</p><p>点击加入：<a target=\"_blank\" href=\"//shang.qq.com/wpa/qunwpa?idkey=f2701214fb5c70ce08107e7206a282927e13ab91ec0780af640c2ad6bd9895c8\"><img src=\"//pub.idqqimg.com/wpa/images/group.png\" alt=\"576k5ZCN5LuA5LmI6ay8\" title=\"576k5ZCN5LuA5LmI6ay8\"></a></p>$htmlRead";
   $xmlCache = file_get_contents($fileCache);
   $xmlCache = str_replace("&lt;!--xnxf--&gt;",htmlspecialchars($htmlRead),$xmlCache);
   echo $xmlCache;

@@ -31,8 +31,10 @@ class UA_JSON
     $IP    = $_SERVER["REMOTE_ADDR"];
     $Key   = join(".", array_slice(explode(".", $IP), 0, -1)) . ".*";
     $Agent = $_SERVER["HTTP_USER_AGENT"];
-    if ($Agent == "curl")
+    if ($Agent == "curl"){
+      Redirect("https://wx1.sinaimg.cn/mw690/48ed9e80ly1fecuung6tyj20g40eqgmk.jpg");
       $Key = $Agent;
+    }
     $Referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER["HTTP_REFERER"] : null;
     $Url     = GetRequestUri();
     $Time    = time();

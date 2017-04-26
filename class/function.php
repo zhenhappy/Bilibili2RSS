@@ -3,6 +3,7 @@ require './class/network.php';
 require './class/networkcurl.php';
 require './class/rss2.php';
 require './class/ua_json.php';
+
 function GetVars($name, $type = 'REQUEST')
 {
   $array =& $GLOBALS[strtoupper("_$type")];
@@ -12,14 +13,17 @@ function GetVars($name, $type = 'REQUEST')
     return null;
   }
 }
+
 function GetGuestIP()
 {
   return GetVars("REMOTE_ADDR", "SERVER");
 }
+
 function GetGuestAgent()
 {
   return GetVars("HTTP_USER_AGENT", "SERVER");
 }
+
 // function SaveFile($tmp, $path, $fn)
 // {
 // if (in_array(strtoupper(PHP_OS), array(
@@ -32,6 +36,7 @@ function GetGuestAgent()
 // @move_uploaded_file($tmp, $path . $fn);
 // return $path . $fn;
 // }
+
 function GetValueInArray($array, $name)
 {
   if (is_array($array)) {
@@ -40,6 +45,7 @@ function GetValueInArray($array, $name)
     }
   }
 }
+
 function GetRequestUri()
 {
   return 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
@@ -76,5 +82,17 @@ function GetRequestUri()
     $url = $_SERVER['PHP_SELF'] . ($_SERVER['QUERY_STRING'] ? '?' . $_SERVER['QUERY_STRING'] : '');
   }
   return $url;
+}
+
+function Redirect($url) {
+    SetHttpStatusCode(302);
+    header('Location: ' . $url);
+    die();
+}
+
+function Redirect301($url) {
+    SetHttpStatusCode(301);
+    header('Location: ' . $url);
+    die();
 }
 ?>
