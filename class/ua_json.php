@@ -33,7 +33,7 @@ class UA_JSON
     $Agent = $_SERVER["HTTP_USER_AGENT"];
     if ($Agent == "curl")
       $Key = $Agent;
-    $Referer = $_SERVER["HTTP_REFERER"];
+    $Referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER["HTTP_REFERER"] : null;
     $Url     = GetRequestUri();
     $Time    = time();
     if (!isset($Guests->$Key)) {
@@ -60,7 +60,6 @@ class UA_JSON
       // $Guests->$Key->ID = $intTray;
       $data->MaxID += $data->MaxID - $intTray;
     }
-    // $Guests->$Key->Logs[] = json_decode('{"Time":"' . date("Y-m-d H:i:s", $Time) . '","IP":"' . $IP . '","Url":"' . $Url . '"}');
     $Guests->$Key->Logs[] = array(
       "Time" => date("Y-m-d H:i:s", $Time),
       "IP" => $IP,
@@ -93,5 +92,12 @@ class UA_JSON
     $file = UA_JSON::FilePath();
     file_put_contents($file, json_encode($data));
   }
+  // UA_JSON::EndNothing()
+  // public static function EndNothing() {
+  // $rss2 = new Rss2("Bilibili2RSS", "http://Bilibili2RSS.bid", "将B站的番剧更新转制为RSS输出");
+  // $rss2->addItem($title, $url, $body, $created);
+  // header("Content-type:text/xml; Charset=utf-8");
+  // echo $rss2->saveXML();
+  // }
 }
 ?>
