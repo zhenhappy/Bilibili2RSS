@@ -2,9 +2,12 @@
 class UA_JSON
 {
   // UA_JSON::FilePath()
-  public static function FilePath()
+  public static function FilePath($notTody = false)
   {
-    return dirname(dirname(__FILE__)) . "/cache/log.json";
+    $GLOBALS["dirCache"] = dirname(dirname(__FILE__)) . "/cache/";
+    $GLOBALS["dirCache"] .= $notTody ? date("Ymd",strtotime("-1 day")) : date("Ymd");
+    $GLOBALS["dirCache"] .= "/";
+    return $GLOBALS["dirCache"] ."log.json";
   }
   // UA_JSON::Read()
   public static function Read()
@@ -16,9 +19,7 @@ class UA_JSON
   {
     $file = UA_JSON::FilePath();
     if (!is_file($file)) {
-      if (!file_exists(dirname($file))) {
-        @mkdir(dirname($file), 0755, true);
-      }
+      @mkdir($GLOBALS["dirCache"],0755,true);
       file_put_contents($file, '{"MaxID":0,"Guests":{"8.8.8.8":{"Time":1487651979,"Agent":"RSS","ID":0}}}');
     }
   }
@@ -32,7 +33,7 @@ class UA_JSON
     $Key   = join(".", array_slice(explode(".", $IP), 0, -1)) . ".*";
     $Agent = $_SERVER["HTTP_USER_AGENT"];
     if ($Agent == "curl"){
-      Redirect("https://wx1.sinaimg.cn/mw690/48ed9e80ly1fecuung6tyj20g40eqgmk.jpg");
+      // Redirect("https://wx1.sinaimg.cn/mw690/48ed9e80ly1fecuung6tyj20g40eqgmk.jpg");
       $Key = $Agent;
     }
     $Referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER["HTTP_REFERER"] : null;

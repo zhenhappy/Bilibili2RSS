@@ -1,4 +1,6 @@
 <?php
+// echo date("Ymd",strtotime("-1 day"));
+// die();
 // date_default_timezone_set("Asia/Shanghai");
 header("Content-type:text/xml; Charset=utf-8");
 require './class/function.php';
@@ -6,14 +8,14 @@ UA_JSON::Create();
 UA_JSON::Del();
 $htmlRead = "";
 $seasonid  = GetVars("anime", "GET") != null ? GetVars("anime", "GET") : 5800;
-$fileCache = dirname(__FILE__) . "/cache/" . date("Ymd") ."/$seasonid.xml";
-if(!UA_JSON::Add() && is_file($fileCache)){
+$dirCache = "";
+if(!UA_JSON::Add() && is_file("$dirCache/$seasonid.xml")){
   require './HyperDown/Parser.php';
   $parser   = new HyperDown\Parser;
   $mdRead   = file_get_contents("./README.md");
   $htmlRead = $parser->makeHtml($mdRead);
   $htmlRead = "<h2><b>---尽量使用固定IP并邀请足够多的人使用本服务即可移除下述内容---</b></h2><p><b>如果你能看到这段文字，说明这是缓存，请降低你的抓取频率！</b></p><p>群号：189574683</p><p>点击加入：<a target=\"_blank\" href=\"//shang.qq.com/wpa/qunwpa?idkey=f2701214fb5c70ce08107e7206a282927e13ab91ec0780af640c2ad6bd9895c8\"><img src=\"//pub.idqqimg.com/wpa/images/group.png\" alt=\"576k5ZCN5LuA5LmI6ay8\" title=\"576k5ZCN5LuA5LmI6ay8\"></a></p>$htmlRead";
-  $xmlCache = file_get_contents($fileCache);
+  $xmlCache = file_get_contents("$dirCache/$seasonid.xml");
   $xmlCache = str_replace("&lt;!--xnxf--&gt;",htmlspecialchars($htmlRead),$xmlCache);
   echo $xmlCache;
   die();
@@ -39,7 +41,7 @@ foreach ($obj_json->result->episodes as $item) {
   $body    = "<p><img src=\"" . $img . "\" alt=\"$title\" /></p><p>$title</p>" . "<!--xnxf-->";
   $rss2->addItem($title, $url, $body, $created);
 }
-@mkdir(dirname($fileCache));
-file_put_contents($fileCache,$rss2->saveXML());
+@mkdir(dirname("$dirCache/$seasonid.xml"));
+file_put_contents("$dirCache/$seasonid.xml",$rss2->saveXML());
 echo $rss2->saveXML();
 ?>
