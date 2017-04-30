@@ -1,5 +1,5 @@
 <?php
-// date_default_timezone_set("Asia/Shanghai");
+date_default_timezone_set("Asia/Shanghai");
 header("Content-type:text/xml; Charset=utf-8");
 require './class/function.php';
 UA_JSON::Create();
