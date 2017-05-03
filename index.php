@@ -19,7 +19,7 @@ if(!UA_JSON::Add() && is_file($fileCache)){
   die();
 }
 $http_post = Network::Create();
-$http_post->open('GET', "http://bangumi.bilibili.com/jsonp/seasoninfo/$seasonid.ver");
+$http_post->open('GET', "http://bangumi.bilibili.com/jsonp/seasoninfo/$seasonid.ver?callback=seasonListCallback");
 $http_post->send();
 $responseText = str_replace("seasonListCallback(", "", $http_post->responseText);
 $responseText = str_replace("});", "}", $responseText);
