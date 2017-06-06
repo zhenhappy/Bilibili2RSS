@@ -17,7 +17,7 @@
     <div class="col-md-8">
       <h1>BT种子转磁力链</h1>
       <p class="help-block">选择种子文件，点击 解析 按钮</p>
-      <form action="get.php" method="post" target="_blank" enctype="multipart/form-data">
+      <form action="/BT/get.php" method="post" target="_blank" enctype="multipart/form-data">
         <input type="file" name="torrent" id="torrent">
       </form>
       <h3 class="js-show fade hidden">结果</h3>
@@ -60,7 +60,7 @@
 $(function () {
   $("#torrent").fileinput({
     language: 'zh', //设置语言
-    uploadUrl: "get.php", //上传的地址
+    uploadUrl: "https://bilibili2rss.bid/BT/get.php", //上传的地址
     allowedFileExtensions: ['jpg', 'png', 'torrent'],//接收的文件后缀
     showPreview: false,
     browseClass: "btn btn-success",
