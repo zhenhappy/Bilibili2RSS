@@ -33,7 +33,8 @@ if (!isset($obj_json->message) || $obj_json->message !== "success") {
 $rss2 = new Rss2($obj_json->result->bangumi_title . "_番剧_bilibili_哔哩哔哩弹幕视频网", "http://bangumi.bilibili.com/anime/" . $seasonid, $obj_json->result->brief);
 foreach ($obj_json->result->episodes as $item) {
   $created = strtotime($item->update_time);
-  $title   = "第" . $item->index . "话 - " . $item->index_title;
+  // $title   = "第" . $item->index . "话 - " . $item->index_title;
+  $title   = "第" . sprintf("%02d", $item->index) . "话 - " . $item->index_title;
   $url     = $item->webplay_url;
   $img     = str_replace("http://","//",$item->cover);
   $body    = "<p><img src=\"" . $img . "\" alt=\"$title\" /></p><p>$title</p>" . "<!--xnxf-->";
