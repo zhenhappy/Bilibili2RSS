@@ -172,8 +172,7 @@ class Torrent
    */
   public function comment($comment = null)
   {
-    $utf8 = "comment.utf-8";
-    return is_null($comment) ? isset($this->comment) ? isset($this->$utf8) ? $this->$utf8 : $this->comment : null : $this->touch($this->comment = (string) $comment);
+    return is_null($comment) ? isset($this->comment) ? $this->comment : null : $this->touch($this->comment = (string) $comment);
   }
   /** Getter and setter of torrent name
    * @param null|string name (optional, if omitted it's a getter)
@@ -181,9 +180,7 @@ class Torrent
    */
   public function name($name = null)
   {
-    return is_null($name) ? 
-    isset($this->info['name']) ? isset($this->info['name.utf-8']) ? $this->info['name.utf-8'] : $this->info['name']  : null
-    : $this->touch($this->info['name'] = (string) $name);
+    return is_null($name) ? isset($this->info['name']) ? $this->info['name'] : null : $this->touch($this->info['name'] = (string) $name);
   }
   /** Getter and setter of private flag
    * @param null|boolean is private or not (optional, if omitted it's a getter)
@@ -235,7 +232,6 @@ class Torrent
   public function ed2k()
   {
     $files = array();
-    // $ed2k = 
     if (isset($this->info['files']) && is_array($this->info['files']))
       foreach ($this->info['files'] as $file) {
         $name   = isset($file['path.utf-8']) ? $file['path.utf-8'][0] : $file['path'][0];
@@ -255,7 +251,7 @@ class Torrent
     $files = array();
     if (isset($this->info['files']) && is_array($this->info['files']))
       foreach ($this->info['files'] as $file)
-        $files[self::path(isset($file['path.utf-8']) ? $file['path.utf-8'] : $file['path'], isset($this->info['name.utf-8']) ? $this->info['name.utf-8'] : $this->info['name'])] = $precision ? self::format($file['length'], $precision) : $file['length'];
+        $files[self::path($file['path'], $this->info['name'])] = $precision ? self::format($file['length'], $precision) : $file['length'];
     elseif (isset($this->info['name']))
       $files[$this->info['name']] = $precision ? self::format($this->info['length'], $precision) : $this->info['length'];
     return $files;
@@ -741,10 +737,10 @@ class Torrent
   {
     $units = array(
       'octets',
-      'K',
-      'M',
-      'G',
-      'T'
+      'Ko',
+      'Mo',
+      'Go',
+      'To'
     );
     while (($next = next($units)) && $size > 1024)
       $size /= 1024;
