@@ -25,6 +25,7 @@ set_time_limit(0);
 require_once 'Torrent.php';
 // get torrent infos
 $torrent          = new Torrent($fileTorrent);
+// $torrent          = new Torrent('./test.torrent');
 // echo '<br><br>private: ', $torrent->is_private() ? 'yes' : 'no';
 // echo '<br><br>annonce: ', json_encode($torrent->announce());
 // echo '<br><br>name: ', $torrent->name();
@@ -49,17 +50,22 @@ $objData->size    = $torrent->size();
 $objData->magnet  = "magnet:?xt=urn:btih:" . $torrent->hash_info();
 // $objData->magnet = $torrent->magnet();
 $objData->content = $torrent->content();
-UA_JSON::Create();
-if (count($torrent->ed2k()) > 0 && UA_JSON::Add(0.1)) {
+$objData->ed2k = $torrent->ed2k();
+/* UA_JSON::Create();
+if (count($torrent->ed2k()) > 0 && UA_JSON::Add()) {
   $objData->ed2k = $torrent->ed2k();
 } elseif (count($torrent->ed2k()) > 0) {
+  $ip                    = UA_JSON::GuestIP();
+  $link                  = md5($ip);
+  $link                  = "aff/{$link}";
   $objData->ed2k   = array();
-  $objData->ed2k[] = "1、当前种子含有ed2k信息，将本程序页面分享给至少3个人使用即可查看；";
+  $objData->ed2k[] = "当前种子含有ed2k信息，宣传下述链接并获得点击即可查看；";
+  $objData->ed2k[] = "<a href=\"{$link}\"></a>";
   $objData->ed2k[] = "2、使用未被记录的IP成功解析任意一个种子文件即为一次有效分享;";
   $objData->ed2k[] = "3、请保持当前的IP <b>" . GetGuestIP() . "</b> 不变，否则将重新计数;";
 } else {
-  UA_JSON::Add(-1);
-}
+  UA_JSON::Add();
+} */
 echo json_encode($objData);
 if (1 == 2) {
   // create torrent

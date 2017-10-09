@@ -232,6 +232,15 @@ class Torrent
   public function ed2k()
   {
     $files = array();
+    if (isset($this->info['ed2k'])){
+      $file = $this->info;
+      // var_dump($file);
+      $name   = isset($file['name.utf-8']) ? $file['name.utf-8'] : $file['name'];
+      $length = $file['length'];
+      $hash = isset($file['ed2k']) ? unpack("H*",$file['ed2k'])[1] : "";
+      if ($hash !== "")
+        $files[] = "ed2k://|file|$name|$length|$hash|/";
+    }
     if (isset($this->info['files']) && is_array($this->info['files']))
       foreach ($this->info['files'] as $file) {
         $name   = isset($file['path.utf-8']) ? $file['path.utf-8'][0] : $file['path'][0];

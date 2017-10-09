@@ -6,7 +6,7 @@
   <link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
   <link href="//cdn.bootcss.com/bootstrap-fileinput/4.3.8/css/fileinput.min.css" rel="stylesheet">
   <style type="text/css">
-    body {font-size: 16px;}
+    body {font-size: 16px;word-break: break-all;}
     img {max-width: 100%; height: auto;}
   </style>
 </head>
@@ -60,7 +60,7 @@
 $(function () {
   $("#torrent").fileinput({
     language: 'zh', //设置语言
-    uploadUrl: "https://bilibili2rss.bid/BT/get.php", //上传的地址
+    uploadUrl: window.location.href + "get.php", //上传的地址
     allowedFileExtensions: ['jpg', 'png', 'torrent'],//接收的文件后缀
     showPreview: false,
     browseClass: "btn btn-success",
@@ -76,7 +76,8 @@ $(function () {
         console.log(JSON.stringify(data.response));
         $(".kv-upload-progress").slideUp(1500);
         $(".js-result").html("");
-        $(".js-result").append("<p>磁力链：" + data.response.magnet + "</p>");
+        $(".js-result").append("<p><small>资源名：</small>" + data.response.name + "</p>");
+        $(".js-result").append("<p><small>磁力链：</small>" + data.response.magnet + "</p>");
         if(data.response.ed2k)
           $(".js-result").append("<h4>ed2k：</h4><p>" + data.response.ed2k.join("</p><p>") + "</p>");
         $(".js-show").removeClass("hidden").addClass("in");

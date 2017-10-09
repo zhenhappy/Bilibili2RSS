@@ -72,4 +72,14 @@ function GetRequestUri()
   }
   return $url;
 }
+function aff_CFG($key) {
+  switch ($key) {
+  case "unit":
+    return 10;
+    break;
+  case "divide":
+    return 3;
+    break;
+  }
+}
 ?>

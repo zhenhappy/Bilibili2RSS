@@ -1,17 +1,28 @@
 <?php
 class UA_JSON
 {
-  // UA_JSON::FilePath()
+
   public static function FilePath()
   {
     return dirname(dirname(__FILE__)) . "/cache/log.json";
   }
-  // UA_JSON::Read()
+  // UA_JSON::GuestIP()
+  public static function GuestIP()
+  {
+    $IP = GetVars('aff-ip', 'COOKIE');
+    if ($IP == null)
+      $IP = GetGuestIP();
+    return $IP;
+  }
+  //UA_JSON::Read()
   public static function Read()
   {
-    return json_decode(file_get_contents(UA_JSON::FilePath()));
+    $objD = json_decode(file_get_contents(UA_JSON::FilePath()));
+    if ($objD == null)
+      $objD = (object)array();
+    return $objD;
   }
-  // UA_JSON::Create()
+  //UA_JSON::Create()
   public static function Create()
   {
     $file = UA_JSON::FilePath();
@@ -19,85 +30,55 @@ class UA_JSON
       if (!file_exists(dirname($file))) {
         @mkdir(dirname($file), 0755, true);
       }
-      file_put_contents($file, '{"MaxID":0,"Guests":{"8.8.8.8":{"Time":1487651979,"Agent":"RSS","ID":0}}}');
+      file_put_contents($file, '{"8.8.8.8":{"Time":1487651979,"Agent":"XNXF","Click":-1}}');
     }
   }
   // UA_JSON::Add()
-  public static function Add($rate = 0.3)
+  public static function Add($aff = "")
   {
+    global $zbp;
     $result = false;
-    $data   = UA_JSON::Read();
-    $Guests =& $data->Guests;
-    $IP    = $_SERVER["REMOTE_ADDR"];
-    $Key   = join(".", array_slice(explode(".", $IP), 0, -1)) . ".*";
-    $Agent = $_SERVER["HTTP_USER_AGENT"];
-    if ($Agent == "curl"){
-      // Redirect("https://wx1.sinaimg.cn/mw690/48ed9e80ly1fecuung6tyj20g40eqgmk.jpg");
-      $Key = $Agent;
-    }
-    $Referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER["HTTP_REFERER"] : null;
-    $Url     = GetRequestUri();
-    $Time    = time();
+    $time   = time();
+    $Guests = UA_JSON::Read();
+    $IP     = UA_JSON::GuestIP();
+    $Agent  = GetGuestAgent();
+    $Key    = md5($IP);
     if (!isset($Guests->$Key)) {
-      $data->MaxID++;
-      $Guests->$Key          = json_decode('{"Time":' . $Time . '}');
-      $Guests->$Key->ID      = (int) $data->MaxID;
-      $Guests->$Key->Agent   = $Agent;
-      $Guests->$Key->Referer = $Referer;
-      $Guests->$Key->Logs    = array();
+      $Guests->$Key        = (object)array("Time"=>$time);
+      $Guests->$Key->Agent = $Agent;
+      $Guests->$Key->Click = -1;
+      if ($aff !== "" && isset($Guests->$aff)) {
+        $Guests->$Key->Aff = $aff;
+        $Guests->$aff->Click++;
+        if ($Guests->$aff->Time < $time)
+          $Guests->$aff->Time = $time;
+        if ($Guests->$aff->Time < strtotime("+7 hours"))
+          $Guests->$aff->Time += ($Guests->$aff->Click % aff_CFG("divide") + 1) * aff_CFG("unit") * 60;
+      }
     } else {
-      if ($Guests->$Key->Agent === $Agent && $Guests->$Key->ID <= $data->MaxID - 3) {
+      if ($Guests->$Key->Agent === $Agent && $Guests->$Key->Time > $time) {
         $result = true;
-        $data->MaxID -= $rate;
-        $Guests->$Key->ID++;
-        $Guests->$Key->Time = $Time;
       }
     }
-    if (!isset($Guests->$Key->Logs)) //5月移除
-      $Guests->$Key->Logs = array();
-    if (count($Guests->$Key->Logs) > 25) {
-      $intTray = $Guests->$Key->ID;
-      unset($Guests->$Key);
-      // UA_JSON::Add();
-      // $Guests->$Key->ID = $intTray;
-      $data->MaxID += $data->MaxID - $intTray;
-    }
-    $Guests->$Key->Logs[] = array(
-      "Time" => date("Y-m-d H:i:s", $Time),
-      "IP" => $IP,
-      "Url" => $Url,
-      "Referer" => $Referer,
-      "Agent" => $Agent,
-    );
+    $aff_time = date("m-d H:i:s", $Guests->$Key->Time);
+    $aff_time = $Guests->$Key->Time > $time ? $aff_time : "<b style=\"color:red;\">{$aff_time}</b>";
+    // setcookie("aff-time", $aff_time, time() + 3600);
+    // setcookie("aff-click", $Guests->$Key->Click + 1, time() + 3600);
     $file = UA_JSON::FilePath();
-    file_put_contents($file, json_encode($data));
+    file_put_contents($file, json_encode($Guests));
     return $result;
   }
   // UA_JSON::Del()
   public static function Del()
   {
-    if (floor(time() / 60) % 3 == 0)
-      return false;
-    $data = UA_JSON::Read();
-    $Guests =& $data->Guests;
-    $time = time();
+    $Guests = UA_JSON::Read();
     foreach ($Guests as $k => $v) {
-      if ($v->Time <= $time) {
+      if ($v->Time < strtotime("-7 day")) {
         unset($Guests->$k);
-        if ($v->Time > strtotime("-7 day"))
-          $Guests->$k = $v;
-        $time = $v->Time;
       }
     }
     $file = UA_JSON::FilePath();
-    file_put_contents($file, str_replace('"Referer":null,','',json_encode($data)));
+    file_put_contents($file, json_encode($Guests));
   }
-  // UA_JSON::EndNothing()
-  // public static function EndNothing() {
-  // $rss2 = new Rss2("Bilibili2RSS", "http://Bilibili2RSS.bid", "将B站的番剧更新转制为RSS输出");
-  // $rss2->addItem($title, $url, $body, $created);
-  // header("Content-type:text/xml; Charset=utf-8");
-  // echo $rss2->saveXML();
-  // }
 }
 ?>
